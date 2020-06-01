@@ -16,15 +16,29 @@ public class MessageResource {
 	
 	MessageService messageService = new MessageService();
 
+//	@GET
+//	@Produces(MediaType.APPLICATION_XML)
+//	public List<Message> getMessages() {
+//		return messageService.getAllMessages();
+//	}
+//	
+//	@GET
+//	@Path("/{messageId}")// here message id comes in string format but "long" in line 28 converts it to long automatically
+//	@Produces(MediaType.APPLICATION_XML)
+//	public Message getMessage(@PathParam("messageId") long id) {
+//		
+//		return messageService.getMessage(id);
+//	}
+	
 	@GET
-	@Produces(MediaType.APPLICATION_XML)
+	@Produces(MediaType.APPLICATION_JSON)
 	public List<Message> getMessages() {
 		return messageService.getAllMessages();
 	}
 	
 	@GET
 	@Path("/{messageId}")// here message id comes in string format but "long" in line 28 converts it to long automatically
-	@Produces(MediaType.APPLICATION_XML)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Message getMessage(@PathParam("messageId") long id) {
 		
 		return messageService.getMessage(id);
