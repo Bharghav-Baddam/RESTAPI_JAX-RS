@@ -27,6 +27,7 @@ import org.bharghav.javabrains.messenger.service.MessageService;
 @Path("/messages")
 @Consumes(MediaType.APPLICATION_JSON)//Produces and Consumes are done at class level to be applied for each method
 @Produces(MediaType.APPLICATION_JSON)// Infact these two can be written for each method individually but since every method consumes or produces this is efficient
+//@Produces(value = { MediaType.APPLICATION_JSON, MediaType.TEXT_XML })
 public class MessageResource {
 	
 	MessageService messageService = new MessageService();
@@ -50,7 +51,21 @@ public class MessageResource {
 //									@QueryParam("start") int start,
 //									@QueryParam("size") int size) {
 	@GET
-	public List<Message> getMessages(@BeanParam MessageFilterBean filterBean) {
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Message> getJsonMessages(@BeanParam MessageFilterBean filterBean) {
+
+		if(filterBean.getYear() > 0) {
+			return messageService.getAllMessagesForYear(filterBean.getYear());
+		}
+		if(filterBean.getStart() > 0 && filterBean.getSize() > 0) {
+			return messageService.getAllMessagesPaginated(filterBean.getStart(), filterBean.getSize());
+		}
+		return messageService.getAllMessages();
+	}
+	
+	@GET
+	@Produces(MediaType.TEXT_XML)
+	public List<Message> getXmlMessages(@BeanParam MessageFilterBean filterBean) {
 
 		if(filterBean.getYear() > 0) {
 			return messageService.getAllMessagesForYear(filterBean.getYear());
