@@ -109,8 +109,29 @@ public class MessageResource {
 		String uri = getUriForSelf(uriInfo, message);
 		
 		message.addLink(uri, "self"); // adding a link to self or a link to resource itself
+		message.addLink(getUriForProfile(uriInfo, message), "profile");// Link for Profile
+		message.addLink(getUriForComments(uriInfo, message), "comments");// Link for comments
+
 		//return messageService.getMessage(id);
 		return message;
+	}
+	
+	private String getUriForComments(UriInfo uriInfo, Message message) {
+		URI uri = uriInfo.getBaseUriBuilder()
+				.path(MessageResource.class)
+				.path(MessageResource.class, "getCommentResource")
+				.path(CommentResource.class)
+				.resolveTemplate("messageId", message.getId()) // to resolve the message ID in the getCommentResource() method
+ 				.build();
+		return uri.toString();
+	}
+
+	private String getUriForProfile(UriInfo uriInfo, Message message) {
+		URI uri = uriInfo.getBaseUriBuilder()
+				.path(ProfileResource.class)
+				.path(message.getAuthor())
+				.build();
+		return uri.toString();
 	}
 
 	private String getUriForSelf(UriInfo uriInfo, Message message) {
