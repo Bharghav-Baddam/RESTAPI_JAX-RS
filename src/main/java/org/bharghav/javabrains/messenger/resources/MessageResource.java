@@ -103,9 +103,23 @@ public class MessageResource {
 	
 	@GET
 	@Path("/{messageId}")// here message id comes in string format but "long" in line 28 converts it to long automatically
-	public Message getMessage(@PathParam("messageId") long id) {
+	public Message getMessage(@PathParam("messageId") long id, @Context UriInfo uriInfo) {
+		Message message = messageService.getMessage(id);
+
+		String uri = getUriForSelf(uriInfo, message);
 		
-		return messageService.getMessage(id);
+		message.addLink(uri, "self"); // adding a link to self or a link to resource itself
+		//return messageService.getMessage(id);
+		return message;
+	}
+
+	private String getUriForSelf(UriInfo uriInfo, Message message) {
+		String uri = uriInfo.getBaseUriBuilder()
+				.path(MessageResource.class)
+				.path(Long.toString(message.getId()))
+				.build()
+				.toString();
+		return uri;
 	}
 	
 	@Path("/{messageId}/comments")//"/{messageId}/comments" when this path matches in the url then the below method is executed and see the return type is another resource and looks into that resource for the return method
