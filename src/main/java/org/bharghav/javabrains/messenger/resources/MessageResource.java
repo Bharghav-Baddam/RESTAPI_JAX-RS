@@ -82,4 +82,8 @@ public class MessageResource {
 		return messageService.getMessage(id);
 	}
 	
+	@Path("/{messageId}/comments")//"/{messageId}/comments" when this path matches in the url then the below method is executed and see the return type is another resource and looks into that resource for the return method
+	public CommentResource getCommentResource() {
+		return new CommentResource();
+	}
 }
