@@ -7,7 +7,7 @@ import javax.ws.rs.ext.Provider;
 
 import org.bharghav.javabrains.messenger.model.ErrorMessage;
 
-@Provider //This registers this Mapper in JaxRS and makes it know that this takes care of mapping of exception and error message
+//@Provider //This registers this Mapper in JaxRS and makes it know that this takes care of mapping of exception and error message
 public class GenericExceptionMapper implements ExceptionMapper<Throwable> { //Throwable --> No matter what the exception is just map it to the error message
 
 	@Override
